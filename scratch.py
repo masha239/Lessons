@@ -55,10 +55,6 @@ def make_lessons():
     lesson1 = Lesson('田', 'Поле')
     lesson2 = Lesson('力', 'Сила')
     lesson3 = Lesson('男', 'Мужчина')
-    lesson1.next_lessons.append(lesson3.lesson_id)
-    lesson2.next_lessons.append(lesson3.lesson_id)
-    lesson3.prev_lessons.append(lesson1.lesson_id)
-    lesson3.prev_lessons.append(lesson2.lesson_id)
     lessons.append(lesson1)
     lessons.append(lesson2)
     lessons.append(lesson3)
@@ -101,6 +97,11 @@ def make_lessons():
     for lesson in lessons:
         lesson.next_lessons = [x.lesson_id for x in lessons if x.hier.find(lesson.hier) != -1 and x is not lesson]
         lesson.prev_lessons = [x.lesson_id for x in lessons if lesson.hier.find(x.hier) != -1 and x is not lesson]
+
+    lesson1.next_lessons.append(lesson3.lesson_id)
+    lesson2.next_lessons.append(lesson3.lesson_id)
+    lesson3.prev_lessons.append(lesson1.lesson_id)
+    lesson3.prev_lessons.append(lesson2.lesson_id)
 
     # Отсортируем по возрастанию сложности
     lessons.sort(key=lambda x:len(x.hier))
