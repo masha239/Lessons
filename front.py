@@ -2,6 +2,7 @@ from tkinter import *
 from learn import Teacher
 import tkinter.font as tkfont
 
+
 COLOR_BEIGE = '#F5F5DC'
 COLOR_VOILET = '#CC99FF'
 COLOR_PINK = '#990033'
@@ -9,6 +10,10 @@ COLOR_GRAY = 'lightgray'
 COLOR_BLUE = '#99CCFF'
 FONT_MAIN_HIER = ("Arial bold", "100")
 FONT_MOVE = ("Arial bold", "25")
+
+
+def get_formula(n):
+    return (900 - 130 * n) // 2
 
 
 class MyFrame:
@@ -23,7 +28,11 @@ class MyFrame:
         self.characters = StringVar()
         self.about = StringVar()
 
-        self.lbl_characters = Label(self.master, textvariable=self.characters, font=FONT_MAIN_HIER, bg=COLOR_BEIGE, fg=COLOR_PINK)
+        self.lbl_characters = Label(self.master,
+                                    textvariable=self.characters,
+                                    font=FONT_MAIN_HIER,
+                                    bg=COLOR_BEIGE,
+                                    fg=COLOR_PINK)
         self.lbl_characters.pack()
         self.lbl_characters.place(height=120, width=360, x=270, y=150)
 
@@ -33,11 +42,20 @@ class MyFrame:
         font_about = tkfont.Font(family="Georgia", size=30, slant="italic")
         self.lbl_about.configure(font=font_about)
 
-        self.button_backward = Button(self.master, text="<", font=FONT_MOVE, command=self.move_backward, bg=COLOR_BLUE, fg=COLOR_PINK)
+        self.button_backward = Button(self.master,
+                                      text="<",
+                                      font=FONT_MOVE,
+                                      command=self.move_backward,
+                                      bg=COLOR_BLUE,
+                                      fg=COLOR_PINK)
         self.button_backward.pack()
         self.button_backward.place(bordermode=OUTSIDE, height=80, width=80, x=50, y=170)
 
-        self.button_forward = Button(self.master, text=">", font=FONT_MOVE, command=self.move_forward, bg=COLOR_BLUE, fg=COLOR_PINK)
+        self.button_forward = Button(self.master, text=">",
+                                     font=FONT_MOVE,
+                                     command=self.move_forward,
+                                     bg=COLOR_BLUE,
+                                     fg=COLOR_PINK)
         self.button_forward.pack()
         self.button_forward.place(bordermode=OUTSIDE, height=80, width=80, x=770, y=170)
 
@@ -66,12 +84,10 @@ class MyFrame:
         prev_lessons = lesson.prev_lessons
 
         self.prev_lessons_bar = Frame(self.master, bg=COLOR_BEIGE)
-        self.prev_lessons_bar.place(height=100, width=130 * len(prev_lessons), x=(900 - 130 * len(prev_lessons)) // 2,
-                                    y=35)
+        self.prev_lessons_bar.place(height=100, width=130 * len(prev_lessons), x=get_formula(len(prev_lessons)), y=35)
 
         self.next_lessons_bar = Frame(self.master, bg=COLOR_BEIGE)
-        self.next_lessons_bar.place(height=100, width=130 * len(next_lessons), x=(900 - 130 * len(next_lessons)) // 2,
-                                    y=350)
+        self.next_lessons_bar.place(height=100, width=130 * len(next_lessons), x=get_formula(len(prev_lessons)), y=350)
 
         for button in self.prev_lessons_buttons:
             button.destroy()
