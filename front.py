@@ -87,7 +87,7 @@ class MyFrame:
         self.prev_lessons_bar.place(height=100, width=130 * len(prev_lessons), x=get_formula(len(prev_lessons)), y=35)
 
         self.next_lessons_bar = Frame(self.master, bg=COLOR_BEIGE)
-        self.next_lessons_bar.place(height=100, width=130 * len(next_lessons), x=get_formula(len(prev_lessons)), y=350)
+        self.next_lessons_bar.place(height=100, width=130 * len(next_lessons), x=get_formula(len(next_lessons)), y=350)
 
         for button in self.prev_lessons_buttons:
             button.destroy()
