@@ -16,7 +16,7 @@ def get_formula(n):
     return (900 - 130 * n) // 2
 
 
-class MyFrame:
+class LearningFrame:
     def __init__(self, master):
         self.master = master
 
@@ -28,13 +28,13 @@ class MyFrame:
         self.characters = StringVar()
         self.about = StringVar()
 
-        self.lbl_characters = Label(self.master,
+        lbl_characters = Label(self.master,
                                     textvariable=self.characters,
                                     font=FONT_MAIN_HIER,
                                     bg=COLOR_BEIGE,
                                     fg=COLOR_PINK)
-        self.lbl_characters.pack()
-        self.lbl_characters.place(height=120, width=360, x=270, y=150)
+        lbl_characters.pack()
+        lbl_characters.place(height=120, width=360, x=270, y=150)
 
         self.lbl_about = Label(self.master, textvariable=self.about, bg=COLOR_BEIGE, fg=COLOR_PINK)
         self.lbl_about.grid()
@@ -73,12 +73,16 @@ class MyFrame:
         self.about.set(lesson.meaning)
         if not self.teacher.can_move_forward():
             self.button_forward['bg'] = COLOR_GRAY
+            self.button_forward['state'] = 'disabled'
         else:
             self.button_forward['bg'] = COLOR_BLUE
+            self.button_forward['state'] = 'normal'
         if not self.teacher.can_move_backward():
             self.button_backward['bg'] = COLOR_GRAY
+            self.button_backward['state'] = 'disabled'
         else:
             self.button_backward['bg'] = COLOR_BLUE
+            self.button_backward['state'] = 'normal'
 
         next_lessons = lesson.next_lessons
         prev_lessons = lesson.prev_lessons
@@ -105,35 +109,28 @@ class MyFrame:
             button.pack(side=LEFT)
             button.place(height=80, width=120, x=idx * 130, y=10)
 
-    def create_prev_button(self, lesson_id):
-        return Button(self.prev_lessons_bar,
+    def _create_button(self, parent, lesson_id):
+        return Button(parent,
                       text=self.teacher.get_lesson(lesson_id).hier,
                       font=FONT_MOVE,
                       command=lambda: self.move_to(lesson_id),
                       bg=COLOR_VOILET,
                       fg=COLOR_PINK)
+
+    def create_prev_button(self, lesson_id):
+        return self._create_button(self.prev_lessons_bar, lesson_id)
 
     def create_next_button(self, lesson_id):
-        return Button(self.next_lessons_bar,
-                      text=self.teacher.get_lesson(lesson_id).hier,
-                      font=FONT_MOVE,
-                      command=lambda: self.move_to(lesson_id),
-                      bg=COLOR_VOILET,
-                      fg=COLOR_PINK)
+        return self._create_button(self.next_lessons_bar, lesson_id)
 
     def move_backward(self):
-        if self.teacher.can_move_backward():
-            self.teacher.move_backward()
+        if self.teacher.move_backward():
             self.update()
 
     def move_forward(self):
-        if self.teacher.can_move_forward():
-            self.teacher.move_forward()
+        if self.teacher.move_forward():
             self.update()
 
     def move_to(self, lesson_id):
-        try:
-            self.teacher.move_to(lesson_id)
-            self.update()
-        except ValueError as err:
-            raise err
+        self.teacher.move_to(lesson_id)
+        self.update()

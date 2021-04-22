@@ -1,7 +1,7 @@
 from tkinter import Tk
-from front import MyFrame
+from front import LearningFrame
 
 
 root = Tk()
-frame = MyFrame(root)
+frame = LearningFrame(root)
 root.mainloop()

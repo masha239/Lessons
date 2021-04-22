@@ -4,6 +4,7 @@ from scratch import get_lessons
 class Teacher:
     def __init__(self):
         self.lessons = [lesson for lesson in get_lessons()]
+        self.by_id = {v.lesson_id: v for v in self.lessons}
         if len(self.lessons) == 0:
             raise ValueError('There is no lessons!')
         self.current = 0
@@ -13,8 +14,7 @@ class Teacher:
 
     def get_lesson(self, lesson_id):
         try:
-            lessons_ids = [lesson.lesson_id for lesson in self.lessons]
-            return self.lessons[lessons_ids.index(lesson_id)]
+            return self.by_id[lesson_id]
         except ValueError as err:
             raise err
 
@@ -27,18 +27,17 @@ class Teacher:
     def move_forward(self):
         if self.can_move_forward():
             self.current += 1
+            return True
         else:
-            raise IndexError("Can't move forward!")
+            return False
 
     def move_backward(self):
         if self.can_move_backward():
             self.current -= 1
+            return True
         else:
-            raise IndexError("Can't move backward!")
+            return False
 
     def move_to(self, lesson_id):
-        try:
-            lessons_ids = [lesson.lesson_id for lesson in self.lessons]
-            self.current = lessons_ids.index(lesson_id)
-        except ValueError as err:
-            raise err
+        lessons_ids = [lesson.lesson_id for lesson in self.lessons]
+        self.current = lessons_ids.index(lesson_id)
